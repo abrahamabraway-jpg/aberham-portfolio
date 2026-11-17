@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aberham Melaku — Video Editor, Colorist &amp; Motion Designer</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts: Montserrat & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            orange: '#FF4D00',
+                            hover: '#E04300'
+                        },
+                        dark: {
+                            950: '#0B0B0B',
+                            900: '#111111',
+                            800: '#161616',
+                            700: '#222222'
+                        },
+                        muted: '#9CA3AF'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #0B0B0B;
+            color: #E5E7EB;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        /* Watermark section heading styling */
+        .watermark-heading {
+            position: relative;
+        }
+        .watermark-bg {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.03);
+            user-select: none;
+            pointer-events: none;
+            line-height: 1;
+            letter-spacing: -0.04em;
+        }
+        /* Seamless feathered edge blend for hero portrait */
+        .hero-portrait-blend {
+            mask-image: linear-gradient(to right, transparent 0%, black 14%, black 88%, transparent 100%),
+                        linear-gradient(to bottom, black 82%, transparent 100%);
+            mask-composite: intersect;
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, black 14%, black 88%, transparent 100%),
+                               linear-gradient(to bottom, black 82%, transparent 100%);
+            -webkit-mask-composite: source-in;
+        }
+        /* Service card hover elevation and orange bottom accent */
+        .service-card {
+            position: relative;
+            transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+        }
+        .service-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: #FF4D00;
+            transition: width 0.35s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 77, 0, 0.35);
+            background-color: #1A1A1A;
+        }
+        .service-card:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="bg-dark-950 text-gray-200 antialiased selection:bg-brand-orange selection:text-white">
+
+    <!-- ==================== HEADER / NAVBAR ==================== -->
+    <header class="fixed top-0 inset-x-0 z-40 bg-dark-950/90 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
+            
+            <!-- Brand Logo -->
+            <a href="#home" class="flex items-center gap-3 group">
+                <div class="w-9 h-9 rounded bg-brand-orange text-white flex items-center justify-center font-bold tracking-tighter shadow-lg shadow-brand-orange/30 group-hover:scale-105 transition-transform">
+                    <svg viewBox="0 0 24 24" class="w-5 h-5 fill-current" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="5,3 19,12 5,21" />
+                    </svg>
+                </div>
+                <span class="font-display font-black text-lg tracking-wider text-white">ABERHAM</span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-300">
+                <a href="#home" class="hover:text-brand-orange transition-colors">Home</a>
+                <a href="#about" class="hover:text-brand-orange transition-colors">About</a>
+                <a href="#services" class="hover:text-brand-orange transition-colors">Services</a>
+                <a href="#grading" class="hover:text-brand-orange transition-colors">Color Lab</a>
+                <a href="#portfolio" class="hover:text-brand-orange transition-colors">Portfolio</a>
+                <a href="#contact" class="hover:text-brand-orange transition-colors">Contact</a>
+            </nav>
+
+            <!-- Action Buttons -->
+            <div class="hidden md:flex items-center gap-3">
+                <button onclick="openResumeModal()" class="px-4 py-2.5 rounded bg-dark-800 hover:bg-dark-700 text-white font-medium text-xs border border-white/10 transition-all">
+                    View CV
+                </button>
+                <a href="#contact" class="px-5 py-2.5 rounded bg-brand-orange hover:bg-brand-hover text-white font-semibold text-xs transition-all shadow-lg shadow-brand-orange/25">
+                    Hire Me
+                </a>
+            </div>
+
+            <!-- Mobile Hamburger -->
+            <button id="mobile-menu-btn" aria-label="Toggle Menu" class="md:hidden p-2.5 rounded text-gray-300 hover:text-white hover:bg-white/10">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full inset-x-0 bg-dark-900 border-b border-white/10 py-6 px-6 space-y-4 shadow-2xl">
+            <a href="#home" class="block text-sm font-medium text-gray-300 hover:text-brand-orange">Home</a>
+            <a href="#about" class="block text-sm font-medium text-gray-300 hover:text-brand-orange">About</a>
+            <a href="#services" class="block text-sm font-medium text-gray-300 hover:text-brand-orange">Services</a>
+            <a href="#grading" class="block text-sm font-medium text-gray-300 hover:text-brand-orange">Color Lab</a>
+            <a href="#portfolio" class="block text-sm font-medium text-gray-300 hover:text-brand-orange">Portfolio</a>
+            <a href="#contact" class="block text-sm font-medium text-gray-300 hover:text-brand-orange">Contact</a>
+            <div class="pt-4 border-t border-white/10 flex gap-3">
+                <button onclick="openResumeModal()" class="w-full py-2.5 rounded bg-dark-800 text-white text-xs font-medium border border-white/10 text-center">View CV</button>
+                <a href="#contact" class="w-full py-2.5 rounded bg-brand-orange text-white text-xs font-semibold text-center">Hire Me</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section id="home" class="relative min-h-screen flex flex-col justify-between pt-28 pb-14 bg-dark-950 overflow-hidden">
+        
+        <!-- Subtle Studio Dot Matrix Background -->
+        <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 24px 24px;"></div>
+
+        <!-- Main Hero Grid -->
+        <div class="max-w-7xl mx-auto px-6 md:px-12 w-full my-auto z-10 pt-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+                
+                <!-- Left Column: Headline & CTA -->
+                <div class="lg:col-span-7">
+                    <p class="text-brand-orange font-mono text-xs sm:text-sm tracking-widest uppercase mb-3 font-semibold">
+                        Hi There!
+                    </p>
+                    <h1 class="font-display font-black text-4xl sm:text-5xl md:text-6xl xl:text-7xl text-white tracking-tight leading-[1.08] mb-6 min-h-[2.2em] sm:min-h-[2.1em]">
+                        <span id="typewriter-text" class="border-r-2 border-brand-orange pr-1">I am Aberham Melaku</span>
+                    </h1>
+                    <p class="text-muted text-base sm:text-lg max-w-xl font-normal leading-relaxed mb-9">
+                        Video Editor, Colorist, and Motion Designer transforming creative ideas into powerful visual experiences through editing, motion, and color.
+                    </p>
+
+                    <div class="flex flex-wrap items-center gap-4">
+                        <a href="#contact" class="px-8 py-4 bg-brand-orange hover:bg-brand-hover text-white font-semibold text-sm rounded transition-all duration-300 shadow-xl shadow-brand-orange/30 flex items-center gap-2 group">
+                            <span>Contact Me</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Column: Portrait Frame -->
+                <div class="lg:col-span-5 flex justify-center lg:justify-end">
+                    <div id="hero-portrait-box" class="relative w-full max-w-[420px] aspect-[4/5] rounded-xl overflow-hidden bg-dark-900 border border-white/10 shadow-2xl flex items-center justify-center">
+                        <!-- Studio Orange Backlight Glow -->
+                        <div class="absolute inset-0 bg-gradient-to-tr from-brand-orange/20 via-transparent to-transparent pointer-events-none"></div>
+
+                        <!-- Home Page Portrait Image -->
+                        <img 
+                            id="hero-portrait-img"
+                            src="hero.jpg" 
+                            alt="Aberham Melaku" 
+                            class="w-full h-full object-cover object-top grayscale contrast-115 transition-all duration-500 hero-portrait-blend"
+                        />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Bottom 3-Column Info Bar -->
+        <div class="max-w-7xl mx-auto px-6 md:px-12 w-full mt-16 pt-8 border-t border-white/10 z-10">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
+                <div>
+                    <span class="text-xs uppercase tracking-wider text-muted block mb-1">Email</span>
+                    <a href="mailto:abraham.abraway@gmail.com" class="text-sm font-semibold text-white hover:text-brand-orange transition-colors">abraham.abraway@gmail.com</a>
+                </div>
+                <div>
+                    <span class="text-xs uppercase tracking-wider text-muted block mb-1">Phone / WhatsApp</span>
+                    <a href="tel:+251967435686" class="text-sm font-semibold text-white hover:text-brand-orange transition-colors">+251 967 435 686</a>
+                </div>
+                <div>
+                    <span class="text-xs uppercase tracking-wider text-muted block mb-1">Location</span>
+                    <span class="text-sm font-semibold text-white">Addis Ababa, Ethiopia</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== ABOUT SECTION ==================== -->
+    <section id="about" class="py-24 bg-dark-900 border-t border-white/5 relative">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            
+            <div class="mb-14">
+                <div class="watermark-heading">
+                    <span class="watermark-bg text-5xl sm:text-6xl md:text-7xl block leading-none">WHO AM I</span>
+                    <h2 class="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-white -mt-6 sm:-mt-8 md:-mt-9 relative z-10">
+                        About Me
+                    </h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Visual Card -->
+                <div class="lg:col-span-5 relative">
+                    <div id="about-portrait-box" class="relative aspect-[4/5] rounded-xl overflow-hidden border border-white/10 shadow-2xl bg-dark-800 group">
+                        <img 
+                            id="about-portrait-img"
+                            src="about.jpg" 
+                            alt="Aberham Melaku" 
+                            class="w-full h-full object-cover object-top filter grayscale contrast-110 transition-transform duration-700 group-hover:scale-105"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent pointer-events-none"></div>
+
+                        <div class="absolute bottom-6 left-6 right-6 pointer-events-none">
+                            <span class="px-3 py-1 rounded bg-brand-orange text-white text-[10px] font-mono uppercase tracking-widest font-semibold inline-block mb-2">Post-Production &amp; Color</span>
+                            <p class="text-white font-display font-bold text-lg">Addis Ababa, Ethiopia</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Biography Content -->
+                <div class="lg:col-span-7 space-y-5">
+                    <h3 class="font-display font-bold text-2xl sm:text-3xl text-white leading-snug">
+                        I am Aberham Melaku, a professional <span class="text-brand-orange">Video Editor, Colorist, and Motion Designer</span>.
+                    </h3>
+                    <p class="text-muted text-sm sm:text-base leading-relaxed">
+                        I am a professional Video Editor, Colorist, and Motion Designer with experience creating high-quality visual content for leading Ethiopian brands and companies.
+                    </p>
+                    <p class="text-muted text-sm sm:text-base leading-relaxed">
+                        Through my work with Inframe Production, I have contributed to projects for brands such as Ethio Telecom (Zemen Gebeya campaign), TECNO Camon 50, and Totot Cultural Restaurant, producing social media advertisements, event promotions, and commercial content.
+                    </p>
+                    <p class="text-muted text-sm sm:text-base leading-relaxed">
+                        I have also worked on various YouTube productions, podcasts, and events, collaborating with talented colorists, cinematographers, and motion designers in the Ethiopian creative industry.
+                    </p>
+                    <p class="text-muted text-sm sm:text-base leading-relaxed">
+                        My expertise includes professional video editing, color grading, motion design, and visual storytelling, using Adobe Premiere Pro, After Effects, and DaVinci Resolve. My passion is transforming creative ideas into powerful visual experiences through editing, motion, and color.
+                    </p>
+
+                    <div class="pt-4 flex flex-wrap gap-4">
+                        <button onclick="openResumeModal()" class="px-7 py-3.5 rounded bg-brand-orange hover:bg-brand-hover text-white font-semibold text-xs transition-all shadow-lg shadow-brand-orange/25 flex items-center gap-2">
+                            <i data-lucide="file-text" class="w-4 h-4"></i>
+                            <span>View Full CV</span>
+                        </button>
+                        <a href="#contact" class="px-7 py-3.5 rounded bg-dark-800 hover:bg-dark-700 text-white font-semibold text-xs border border-white/10 transition-all">
+                            Let's Talk
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SERVICES SECTION ==================== -->
+    <section id="services" class="py-24 bg-dark-950 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            
+            <div class="mb-14">
+                <div class="watermark-heading">
+                    <span class="watermark-bg text-5xl sm:text-6xl md:text-7xl block leading-none">SERVICES</span>
+                    <h2 class="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-white -mt-6 sm:-mt-8 md:-mt-9 relative z-10">
+                        What I Do
+                    </h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+                
+                <!-- 01 -->
+                <div class="service-card bg-dark-800 p-8 sm:p-9 rounded border border-white/[0.05]">
+                    <div class="text-brand-orange mb-6">
+                        <i data-lucide="clapperboard" class="w-10 h-10 stroke-[1.6]"></i>
+                    </div>
+                    <span class="text-xs font-mono text-brand-orange font-semibold block mb-1">01.</span>
+                    <h3 class="font-display font-bold text-lg text-white mb-3">
+                        Commercial &amp; Brand Video Editing
+                    </h3>
+                    <p class="text-muted text-sm leading-relaxed">
+                        Professional editing for brand campaigns, product advertisements, promotional videos, and commercial productions.
+                    </p>
+                </div>
+
+                <!-- 02 -->
+                <div class="service-card bg-dark-800 p-8 sm:p-9 rounded border border-white/[0.05]">
+                    <div class="text-brand-orange mb-6">
+                        <i data-lucide="palette" class="w-10 h-10 stroke-[1.6]"></i>
+                    </div>
+                    <span class="text-xs font-mono text-brand-orange font-semibold block mb-1">02.</span>
+                    <h3 class="font-display font-bold text-lg text-white mb-3">
+                        DaVinci Resolve Color Grading
+                    </h3>
+                    <p class="text-muted text-sm leading-relaxed">
+                        Cinematic color grading, creative look development, color correction, skin-tone refinement, and professional color finishing.
+                    </p>
+                </div>
+
+                <!-- 03 -->
+                <div class="service-card bg-dark-800 p-8 sm:p-9 rounded border border-white/[0.05]">
+                    <div class="text-brand-orange mb-6">
+                        <i data-lucide="youtube" class="w-10 h-10 stroke-[1.6]"></i>
+                    </div>
+                    <span class="text-xs font-mono text-brand-orange font-semibold block mb-1">03.</span>
+                    <h3 class="font-display font-bold text-lg text-white mb-3">
+                        YouTube &amp; Content Editing
+                    </h3>
+                    <p class="text-muted text-sm leading-relaxed">
+                        Engaging storytelling, dynamic pacing, seamless cuts, and retention-focused editing for YouTube channels and digital content.
+                    </p>
+                </div>
+
+                <!-- 04 -->
+                <div class="service-card bg-dark-800 p-8 sm:p-9 rounded border border-white/[0.05]">
+                    <div class="text-brand-orange mb-6">
+                        <i data-lucide="smartphone" class="w-10 h-10 stroke-[1.6]"></i>
+                    </div>
+                    <span class="text-xs font-mono text-brand-orange font-semibold block mb-1">04.</span>
+                    <h3 class="font-display font-bold text-lg text-white mb-3">
+                        Social Media &amp; Short-Form Editing
+                    </h3>
+                    <p class="text-muted text-sm leading-relaxed">
+                        Attention-grabbing Reels, TikToks, and social media advertisements designed for engagement and audience retention.
+                    </p>
+                </div>
+
+                <!-- 05 -->
+                <div class="service-card bg-dark-800 p-8 sm:p-9 rounded border border-white/[0.05]">
+                    <div class="text-brand-orange mb-6">
+                        <i data-lucide="video" class="w-10 h-10 stroke-[1.6]"></i>
+                    </div>
+                    <span class="text-xs font-mono text-brand-orange font-semibold block mb-1">05.</span>
+                    <h3 class="font-display font-bold text-lg text-white mb-3">
+                        Events &amp; Promotional Videos
+                    </h3>
+                    <p class="text-muted text-sm leading-relaxed">
+                        Creative event highlights, corporate productions, promotional films, and memorable visual storytelling.
+                    </p>
+                </div>
+
+                <!-- 06 -->
+                <div class="service-card bg-dark-800 p-8 sm:p-9 rounded border border-white/[0.05]">
+                    <div class="text-brand-orange mb-6">
+                        <i data-lucide="sparkles" class="w-10 h-10 stroke-[1.6]"></i>
+                    </div>
+                    <span class="text-xs font-mono text-brand-orange font-semibold block mb-1">06.</span>
+                    <h3 class="font-display font-bold text-lg text-white mb-3">
+                        Motion Graphics &amp; Animation
+                    </h3>
+                    <p class="text-muted text-sm leading-relaxed">
+                        Creative motion design, animated titles, typography, transitions, and visual elements that bring stories to life.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== COLOR LAB SECTION ==================== -->
+    <section id="grading" class="py-24 bg-dark-900 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            
+            <div class="mb-12">
+                <div class="watermark-heading">
+                    <span class="watermark-bg text-5xl sm:text-6xl md:text-7xl block leading-none">COLOR LAB</span>
+                    <h2 class="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-white -mt-6 sm:-mt-8 md:-mt-9 relative z-10">
+                        Color Grading Suite
+                    </h2>
+                </div>
+            </div>
+
+            <div class="bg-dark-800 p-3 sm:p-4 rounded-lg border border-white/10 shadow-2xl">
+                <div class="relative w-full aspect-video rounded overflow-hidden bg-black">
+                    <iframe
+                        src="https://drive.google.com/file/d/1UslPeChKTIzwU_XEydtqLlXaTmvMVqDE/preview"
+                        title="Color Grading Suite Showcase"
+                        allow="autoplay; fullscreen"
+                        class="w-full h-full border-0"
+                    ></iframe>
+                </div>
+
+                <div class="mt-3 px-3 py-2 flex flex-wrap items-center justify-between gap-4 text-xs text-muted font-mono bg-dark-950/60 rounded border border-white/5">
+                    <div class="flex flex-wrap items-center gap-4">
+                        <span>PIPELINE: <strong class="text-white">DaVinci Resolve Studio</strong></span>
+                        <span class="hidden sm:inline">COLOR SPACE: <strong class="text-brand-orange">DaVinci WG / Intermediate &rarr; Rec.709</strong></span>
+                    </div>
+                    <a href="https://drive.google.com/file/d/1UslPeChKTIzwU_XEydtqLlXaTmvMVqDE/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-brand-orange flex items-center gap-1.5 transition-colors">
+                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                        <span>Open in Google Drive</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ==================== PORTFOLIO SECTION ==================== -->
+    <section id="portfolio" class="py-24 bg-dark-950 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-14">
+                <div class="watermark-heading">
+                    <span class="watermark-bg text-5xl sm:text-6xl md:text-7xl block leading-none">PORTFOLIO</span>
+                    <h2 class="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-white -mt-6 sm:-mt-8 md:-mt-9 relative z-10">
+                        Featured Projects
+                    </h2>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2 sm:gap-3" id="portfolio-filters">
+                    <button data-filter="all" class="filter-btn active px-4 py-2 rounded text-xs sm:text-sm font-semibold bg-brand-orange text-white transition-all shadow-md shadow-brand-orange/20">
+                        All
+                    </button>
+                    <button data-filter="commercial" class="filter-btn px-4 py-2 rounded text-xs sm:text-sm font-medium bg-dark-800 text-muted hover:text-white border border-white/5 transition-all">
+                        Brand Campaigns
+                    </button>
+                    <button data-filter="color" class="filter-btn px-4 py-2 rounded text-xs sm:text-sm font-medium bg-dark-800 text-muted hover:text-white border border-white/5 transition-all">
+                        Color Grading
+                    </button>
+                    <button data-filter="youtube" class="filter-btn px-4 py-2 rounded text-xs sm:text-sm font-medium bg-dark-800 text-muted hover:text-white border border-white/5 transition-all">
+                        YouTube &amp; Podcasts
+                    </button>
+                    <button data-filter="events" class="filter-btn px-4 py-2 rounded text-xs sm:text-sm font-medium bg-dark-800 text-muted hover:text-white border border-white/5 transition-all">
+                        Short Video
+                    </button>
+                </div>
+            </div>
+
+            <div id="portfolio-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7"></div>
+
+        </div>
+    </section>
+
+    <!-- ==================== CONTACT SECTION ==================== -->
+    <section id="contact" class="py-24 bg-dark-900 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 md:px-12">
+            
+            <div class="mb-14">
+                <div class="watermark-heading">
+                    <span class="watermark-bg text-5xl sm:text-6xl md:text-7xl block leading-none">CONTACT</span>
+                    <h2 class="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-white -mt-6 sm:-mt-8 md:-mt-9 relative z-10">
+                        Get In Touch
+                    </h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                
+                <!-- Contact Form -->
+                <div class="lg:col-span-7 bg-dark-800 p-7 sm:p-10 rounded border border-white/[0.05]">
+                    <h3 class="font-display font-bold text-xl text-white mb-6">Start a Project</h3>
+                    
+                    <form id="contact-form" class="space-y-5">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div>
+                                <label for="name" class="block text-xs text-muted uppercase tracking-wider mb-2">Your Name</label>
+                                <input type="text" id="name" required placeholder="e.g. Daniel Bekele" class="w-full px-4 py-3.5 rounded bg-dark-950 border border-white/10 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-brand-orange transition-colors">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-xs text-muted uppercase tracking-wider mb-2">Email Address</label>
+                                <input type="email" id="email" required placeholder="daniel@brand.com" class="w-full px-4 py-3.5 rounded bg-dark-950 border border-white/10 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-brand-orange transition-colors">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div>
+                                <label for="project-type" class="block text-xs text-muted uppercase tracking-wider mb-2">Service Needed</label>
+                                <select id="project-type" class="w-full px-4 py-3.5 rounded bg-dark-950 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-orange transition-colors">
+                                    <option value="Commercial & Brand Video Editing">Commercial &amp; Brand Video Editing</option>
+                                    <option value="DaVinci Resolve Color Grading">DaVinci Resolve Color Grading</option>
+                                    <option value="YouTube & Content Editing">YouTube &amp; Content Editing</option>
+                                    <option value="Social Media & Short-Form Editing">Social Media &amp; Short-Form Editing</option>
+                                    <option value="Events & Promotional Videos">Events &amp; Promotional Videos</option>
+                                    <option value="Motion Graphics & Animation">Motion Graphics &amp; Animation</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="timeline" class="block text-xs text-muted uppercase tracking-wider mb-2">Estimated Timeline</label>
+                                <select id="timeline" class="w-full px-4 py-3.5 rounded bg-dark-950 border border-white/10 text-sm text-white focus:outline-none focus:border-brand-orange transition-colors">
+                                    <option value="Rush (48–72 Hours)">Rush (48–72 Hours)</option>
+                                    <option value="1 – 2 Weeks" selected>1 – 2 Weeks</option>
+                                    <option value="2 – 4 Weeks">2 – 4 Weeks</option>
+                                    <option value="Monthly Retainer">Monthly Retainer</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="message" class="block text-xs text-muted uppercase tracking-wider mb-2">Project Details</label>
+                            <textarea id="message" rows="4" required placeholder="Tell me about your campaign, raw footage format, deliverables, and creative vision..." class="w-full px-4 py-3.5 rounded bg-dark-950 border border-white/10 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-brand-orange transition-colors resize-none"></textarea>
+                        </div>
+
+                        <button type="submit" class="px-8 py-3.5 bg-brand-orange hover:bg-brand-hover text-white font-semibold text-sm rounded transition-all duration-300 shadow-lg shadow-brand-orange/25 flex items-center gap-2">
+                            <span>Send Message</span>
+                            <i data-lucide="send" class="w-4 h-4"></i>
+                        </button>
+
+                        <div id="form-feedback" class="hidden p-4 rounded bg-brand-orange/15 border border-brand-orange/40 text-sm text-orange-200 flex items-center gap-3">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-brand-orange shrink-0"></i>
+                            <span>Message received! Aberham Melaku will review your brief and respond shortly.</span>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="lg:col-span-5 flex flex-col justify-between space-y-8">
+                    <div>
+                        <h3 class="font-display font-bold text-xl text-white mb-3">Contact Info</h3>
+                        <p class="text-muted text-sm leading-relaxed mb-8">
+                            Available for commercial campaigns, social media advertisements, YouTube &amp; podcast editing, DaVinci Resolve color grading, and motion graphics projects.
+                        </p>
+
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <div class="w-11 h-11 rounded bg-dark-800 border border-white/10 flex items-center justify-center text-brand-orange shrink-0">
+                                    <i data-lucide="user" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-muted uppercase tracking-wider">Name</p>
+                                    <p class="text-sm font-semibold text-white mt-0.5">Aberham Melaku</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="w-11 h-11 rounded bg-dark-800 border border-white/10 flex items-center justify-center text-brand-orange shrink-0">
+                                    <i data-lucide="map-pin" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-muted uppercase tracking-wider">Location</p>
+                                    <p class="text-sm font-semibold text-white mt-0.5">Addis Ababa, Ethiopia</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="w-11 h-11 rounded bg-dark-800 border border-white/10 flex items-center justify-center text-brand-orange shrink-0">
+                                    <i data-lucide="phone" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-muted uppercase tracking-wider">Call / WhatsApp</p>
+                                    <a href="https://wa.me/251967435686" target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-white hover:text-brand-orange transition-colors mt-0.5 block">+251 -0967435686</a>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-4">
+                                <div class="w-11 h-11 rounded bg-dark-800 border border-white/10 flex items-center justify-center text-brand-orange shrink-0">
+                                    <i data-lucide="mail" class="w-5 h-5"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-muted uppercase tracking-wider">Email Me</p>
+                                    <a href="mailto:abraham.abraway@gmail.com" class="text-sm font-semibold text-white hover:text-brand-orange transition-colors mt-0.5 block">abraham.abraway@gmail.com</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-white/10">
+                        <p class="text-xs text-muted uppercase tracking-wider mb-4">Connect &amp; Social Media</p>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <a href="https://www.instagram.com/aberhamm7?exln=dHoyYmFrNHRkOTlo" target="_blank" rel="noopener noreferrer" aria-label="Instagram @aberhamm7" class="px-4 py-2.5 rounded bg-dark-800 hover:bg-brand-orange text-gray-200 hover:text-white border border-white/10 flex items-center gap-2 text-xs font-semibold transition-all">
+                                <i data-lucide="instagram" class="w-4 h-4"></i>
+                                <span>Instagram</span>
+                            </a>
+                            <a href="https://wa.me/251967435686" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp +251 967 435 686" class="px-4 py-2.5 rounded bg-dark-800 hover:bg-brand-orange text-gray-200 hover:text-white border border-white/10 flex items-center gap-2 text-xs font-semibold transition-all">
+                                <i data-lucide="message-circle" class="w-4 h-4"></i>
+                                <span>WhatsApp</span>
+                            </a>
+                            <a href="https://t.me/Aberhmm" target="_blank" rel="noopener noreferrer" aria-label="Telegram @Aberhmm" class="px-4 py-2.5 rounded bg-dark-800 hover:bg-brand-orange text-gray-200 hover:text-white border border-white/10 flex items-center gap-2 text-xs font-semibold transition-all">
+                                <i data-lucide="send" class="w-4 h-4"></i>
+                                <span>@Aberhmm</span>
+                            </a>
+                            <a href="mailto:abraham.abraway@gmail.com" aria-label="Email abraham.abraway@gmail.com" class="px-4 py-2.5 rounded bg-dark-800 hover:bg-brand-orange text-gray-200 hover:text-white border border-white/10 flex items-center gap-2 text-xs font-semibold transition-all">
+                                <i data-lucide="mail" class="w-4 h-4"></i>
+                                <span>Email</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="py-8 bg-dark-950 border-t border-white/5 text-center sm:text-left">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted">
+            <div class="flex items-center gap-2.5">
+                <span class="w-2 h-2 rounded-full bg-brand-orange"></span>
+                <span>&copy; 2026 <strong class="text-white font-semibold">Aberham Melaku</strong>. All Rights Reserved.</span>
+            </div>
+            <p>Video Editor &bull; Colorist &bull; Motion Designer</p>
+        </div>
+    </footer>
+
+    <!-- ==================== VIDEO / SHOWREEL MODAL ==================== -->
+    <div id="video-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 backdrop-blur-md p-4 sm:p-6">
+        <div class="relative w-full max-w-4xl bg-dark-800 border border-white/15 rounded-lg overflow-hidden shadow-2xl">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-white/10">
+                <div>
+                    <span id="modal-category" class="text-[11px] font-mono uppercase tracking-wider text-brand-orange font-semibold">SHOWREEL</span>
+                    <h3 id="modal-title" class="font-display font-bold text-lg text-white">Aberham Melaku — Showreel</h3>
+                </div>
+                <button onclick="closeVideoModal()" aria-label="Close Preview" class="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="relative aspect-video bg-black overflow-hidden group">
+                <img id="modal-poster" src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1400&q=85" alt="Project Frame" class="w-full h-full object-cover opacity-80">
+                <iframe
+                    id="modal-drive-player"
+                    src=""
+                    title="Project Video Player"
+                    allow="autoplay; fullscreen"
+                    class="hidden w-full h-full border-0 relative z-20"
+                ></iframe>
+                <div id="modal-poster-gradient" class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+                
+                <div id="modal-tc-badge" class="absolute top-4 right-4 px-3 py-1 rounded bg-black/80 border border-white/15 font-mono text-xs text-brand-orange font-semibold">
+                    TC <span id="modal-timecode">00:00:14:08</span> • 24 FPS
+                </div>
+
+                <button id="modal-play-toggle" onclick="toggleSimulatedPlayback()" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-brand-orange hover:bg-brand-hover text-white flex items-center justify-center shadow-2xl shadow-brand-orange/40 transition-transform hover:scale-105">
+                    <i id="modal-play-icon" data-lucide="pause" class="w-7 h-7 fill-current"></i>
+                </button>
+
+                <div id="modal-sim-controls" class="absolute bottom-0 inset-x-0 p-4 space-y-2">
+                    <div id="modal-scrubber" onclick="scrubSimulatedTimeline(event)" class="w-full h-2 bg-white/20 rounded-full overflow-hidden cursor-pointer">
+                        <div id="modal-progress-bar" class="h-full bg-brand-orange w-1/3 transition-all duration-150"></div>
+                    </div>
+                    <div class="flex items-center justify-between text-xs text-gray-300 font-mono">
+                        <span id="modal-status-text">PLAYING MASTER PRORES 422 HQ</span>
+                        <span id="modal-duration">01:45</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Multi-Video Switcher Bar (Shown when project has multiple videos) -->
+            <div id="modal-video-switcher" class="hidden px-6 py-3 bg-dark-900 border-t border-white/10 flex-wrap items-center justify-between gap-3">
+                <div class="flex flex-wrap items-center gap-2" id="modal-video-tabs"></div>
+                <a id="modal-drive-external" href="#" target="_blank" rel="noopener noreferrer" class="text-xs font-mono text-gray-300 hover:text-brand-orange flex items-center gap-1.5 transition-colors">
+                    <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                    <span>Open Video in Drive</span>
+                </a>
+            </div>
+
+            <div class="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-dark-950">
+                <p id="modal-description" class="text-sm text-muted max-w-2xl">
+                    A curated montage of commercial campaigns, social media advertisements, and custom DaVinci Resolve color grades crafted by Aberham Melaku.
+                </p>
+                <div id="modal-tools" class="flex flex-wrap gap-2 shrink-0">
+                    <span class="px-3 py-1 rounded bg-dark-800 border border-white/10 text-xs text-gray-200">DaVinci Resolve</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== CURRICULUM VITAE MODAL ==================== -->
+    <div id="resume-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 backdrop-blur-md p-4">
+        <div class="relative w-full max-w-2xl bg-dark-800 border border-white/15 rounded-lg overflow-hidden shadow-2xl p-6 sm:p-8">
+            <div class="flex items-start justify-between border-b border-white/10 pb-5 mb-6">
+                <div>
+                    <p class="text-xs font-mono text-brand-orange uppercase tracking-wider font-semibold">Curriculum Vitae</p>
+                    <h3 class="font-display font-bold text-2xl text-white mt-1">Aberham Melaku</h3>
+                    <p class="text-sm text-muted">Video Editor &amp; Colorist | Motion Designer &bull; Addis Ababa, Ethiopia</p>
+                </div>
+                <button onclick="closeResumeModal()" class="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/10">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <div class="space-y-5 text-sm max-h-[60vh] overflow-y-auto pr-2">
+                <div>
+                    <h4 class="font-display font-bold uppercase text-xs tracking-wider text-brand-orange mb-2">Professional Experience</h4>
+                    <div class="space-y-3">
+                        <div class="p-4 rounded bg-dark-950 border border-white/5">
+                            <div class="flex flex-wrap justify-between gap-2 font-semibold text-white">
+                                <span>Video Editor &amp; Colorist — Inframe Production</span>
+                                <span class="text-brand-orange text-xs">Commercial &amp; Brand Production</span>
+                            </div>
+                            <p class="text-muted text-xs mt-1.5 leading-relaxed">
+                                Worked on commercial and creative productions for leading Ethiopian brands, contributing to professional video editing, color grading, and visual storytelling.
+                            </p>
+                            <div class="mt-2.5 text-xs text-gray-300 space-y-1">
+                                <p class="font-semibold text-white">Selected projects include:</p>
+                                <p>&bull; <strong>Ethio Telecom</strong> — Zemen Gebeya social media advertising campaign.</p>
+                                <p>&bull; <strong>TECNO Camon 50</strong> — Event promotions and social media advertisements.</p>
+                                <p>&bull; <strong>Totot Cultural Restaurant</strong> — Commercial video production.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-4 rounded bg-dark-950 border border-white/5">
+                            <div class="font-semibold text-white">Additional Creative Projects</div>
+                            <p class="text-muted text-xs mt-1.5 leading-relaxed">
+                                Experience editing YouTube programs, podcasts, event productions, and various commercial projects. Collaborated with experienced colorists, cinematographers, and motion designers in the Ethiopian creative industry.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-display font-bold uppercase text-xs tracking-wider text-brand-orange mb-2">Technical Skills</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-gray-300">
+                        <div class="p-2.5 rounded bg-dark-950 border border-white/5">&bull; Professional Video Editing</div>
+                        <div class="p-2.5 rounded bg-dark-950 border border-white/5">&bull; Color Grading &amp; Color Design</div>
+                        <div class="p-2.5 rounded bg-dark-950 border border-white/5">&bull; Motion Graphics &amp; Motion Design</div>
+                        <div class="p-2.5 rounded bg-dark-950 border border-white/5">&bull; Visual Storytelling</div>
+                        <div class="p-2.5 rounded bg-dark-950 border border-white/5">&bull; Commercial &amp; Social Media Advertising</div>
+                        <div class="p-2.5 rounded bg-dark-950 border border-white/5">&bull; YouTube &amp; Podcast Editing</div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-display font-bold uppercase text-xs tracking-wider text-brand-orange mb-2">Software &amp; Tools</h4>
+                    <div class="space-y-1.5 text-xs text-gray-300 p-3.5 rounded bg-dark-950 border border-white/5">
+                        <p>&bull; <strong class="text-white">DaVinci Resolve</strong> — Color Grading &amp; Post-Production</p>
+                        <p>&bull; <strong class="text-white">Adobe Premiere Pro</strong> — Professional Video Editing</p>
+                        <p>&bull; <strong class="text-white">Adobe After Effects</strong> — Motion Graphics &amp; Visual Effects</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-display font-bold uppercase text-xs tracking-wider text-brand-orange mb-2">Professional Profile</h4>
+                    <p class="text-muted text-xs leading-relaxed">
+                        Passionate about visual storytelling, creative problem-solving, and delivering high-quality visual experiences through editing, motion, and color.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-6 pt-5 border-t border-white/10 flex items-center justify-between">
+                <span id="cv-download-toast" class="text-xs text-brand-orange font-medium opacity-0 transition-opacity">
+                    &#10003; CV downloaded!
+                </span>
+                <div class="flex gap-3">
+                    <button onclick="closeResumeModal()" class="px-5 py-2.5 rounded bg-dark-950 text-gray-300 hover:text-white text-xs font-medium border border-white/10">
+                        Close
+                    </button>
+                    <button onclick="downloadTextCV()" class="px-5 py-2.5 rounded bg-brand-orange hover:bg-brand-hover text-white text-xs font-semibold flex items-center gap-2">
+                        <i data-lucide="download" class="w-4 h-4"></i>
+                        Save CV (.txt)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // ==================== MOBILE MENU ====================
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+        });
+
+        // ==================== TYPEWRITER HEADLINE ====================
+        const roles = [
+            "I am Aberham Melaku",
+            "I am a Video Editor",
+            "I am a Colorist",
+            "I am a Motion Designer"
+        ];
+        let roleIndex = 0;
+        let charIndex = roles[0].length;
+        let isDeleting = false;
+        const typewriterEl = document.getElementById('typewriter-text');
+
+        function runTypewriter() {
+            const currentPhrase = roles[roleIndex];
+            if (isDeleting) {
+                charIndex--;
+                typewriterEl.textContent = currentPhrase.substring(0, charIndex);
+            } else {
+                charIndex++;
+                typewriterEl.textContent = currentPhrase.substring(0, charIndex);
+            }
+
+            let delay = isDeleting ? 45 : 85;
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                delay = 2200;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 5) {
+                isDeleting = false;
+                roleIndex = (roleIndex + 1) % roles.length;
+                delay = 350;
+            }
+
+            setTimeout(runTypewriter, delay);
+        }
+        setTimeout(runTypewriter, 2000);
+
+        // ==================== INTERACTIVE COLOR LAB SLIDER ====================
+        // Color Grading Suite displays the untouched Google Drive showcase directly.
+
+        // ==================== PORTFOLIO DATA & FILTERING ====================
+        const projects = [
+            {
+                id: 1,
+                title: "Ethio Telecom — Zemen Gebeya Campaign",
+                category: "commercial",
+                categoryLabel: "Brand Campaign",
+                codecBadge: "2 Campaign Spots • Inframe Production",
+                duration: "2 Videos",
+                image: "https://placehold.co/900x506/08470A/FFFFFF?text=Zemen+Gebeya+%E2%80%A2+Social+Media+Promotion",
+                customThumbnailType: "zemen-gebeya",
+                tools: ["Premiere Pro", "After Effects", "DaVinci Resolve"],
+                description: "Social media advertising campaign produced with Inframe Production, featuring two commercial spots with crisp pacing, branded motion graphics, and vibrant commercial color grading.",
+                videos: [
+                    {
+                        label: "Campaign Spot 01",
+                        embedUrl: "https://drive.google.com/file/d/1NMes3HL22xWY5fJr0vpXSGXUASW51AcD/preview",
+                        viewUrl: "https://drive.google.com/file/d/1NMes3HL22xWY5fJr0vpXSGXUASW51AcD/view?usp=sharing"
+                    },
+                    {
+                        label: "Campaign Spot 02",
+                        embedUrl: "https://drive.google.com/file/d/1MhPT_DC-BrmJGpsagKCvNFKIbAJJl3sl/preview",
+                        viewUrl: "https://drive.google.com/file/d/1MhPT_DC-BrmJGpsagKCvNFKIbAJJl3sl/view?usp=sharing"
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: "TECNO Camon 50 — Event & Social Promo",
+                category: "events",
+                categoryLabel: "Short Video",
+                codecBadge: "3 Campaign Videos • Inframe Production",
+                duration: "3 Videos",
+                image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80",
+                tools: ["Premiere Pro", "After Effects"],
+                description: "High-energy event promotions and social media advertisements for the TECNO Camon 50 campaign produced with Inframe Production, highlighting sleek product visuals and dynamic transitions.",
+                videos: [
+                    {
+                        label: "Campaign Video 01",
+                        embedUrl: "https://drive.google.com/file/d/1qHzAbMeVhOcXSPWIZFh0fJQ_J1Ef_Bgj/preview",
+                        viewUrl: "https://drive.google.com/file/d/1qHzAbMeVhOcXSPWIZFh0fJQ_J1Ef_Bgj/view?usp=sharing"
+                    },
+                    {
+                        label: "Campaign Video 02",
+                        embedUrl: "https://drive.google.com/file/d/1rIOKFidmMACwcyIUluh11RO1yKPiYgDg/preview",
+                        viewUrl: "https://drive.google.com/file/d/1rIOKFidmMACwcyIUluh11RO1yKPiYgDg/view?usp=sharing"
+                    },
+                    {
+                        label: "Campaign Video 03",
+                        embedUrl: "https://drive.google.com/file/d/1Pn_-WQ_EsJaJ1iSUK5Tv2U57sdK47V8y/preview",
+                        viewUrl: "https://drive.google.com/file/d/1Pn_-WQ_EsJaJ1iSUK5Tv2U57sdK47V8y/view?usp=sharing"
+                    }
+                ]
+            },
+            {
+                id: 3,
+                title: "Totot Cultural Restaurant — Commercial Film",
+                category: "commercial",
+                categoryLabel: "Brand Campaign",
+                codecBadge: "4K Commercial • DaVinci Resolve",
+                duration: "1 Video",
+                image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=900&q=80",
+                tools: ["DaVinci Resolve", "Premiere Pro"],
+                description: "Warm, atmospheric commercial production celebrating Ethiopian hospitality and cultural heritage with rich color finishing.",
+                videos: [
+                    {
+                        label: "Commercial Film",
+                        embedUrl: "https://drive.google.com/file/d/1UslPeChKTIzwU_XEydtqLlXaTmvMVqDE/preview",
+                        viewUrl: "https://drive.google.com/file/d/1UslPeChKTIzwU_XEydtqLlXaTmvMVqDE/view?usp=sharing"
+                    }
+                ]
+            },
+            {
+                id: 4,
+                title: "Ethiopian Creative Podcast & YouTube Series",
+                category: "youtube",
+                categoryLabel: "YouTube & Podcasts",
+                codecBadge: "4 Episodes • Retention Cut",
+                duration: "4 Videos",
+                image: "https://images.unsplash.com/photo-1590602847861-f357a9332bbc?auto=format&fit=crop&w=900&q=80",
+                tools: ["Premiere Pro", "After Effects"],
+                description: "Multi-camera podcast and YouTube program editing engineered for audience retention with custom lower-thirds, pacing resets, and clean audio.",
+                videos: [
+                    {
+                        label: "Episode 01",
+                        embedUrl: "https://drive.google.com/file/d/1NInpNrl1s5pb4tc1aSAFA0JWL73wh90F/preview",
+                        viewUrl: "https://drive.google.com/file/d/1NInpNrl1s5pb4tc1aSAFA0JWL73wh90F/view?usp=sharing"
+                    },
+                    {
+                        label: "Episode 02",
+                        embedUrl: "https://drive.google.com/file/d/1xE4T-FBq8qYzKayuYwHnKXD5VgNU-BHZ/preview",
+                        viewUrl: "https://drive.google.com/file/d/1xE4T-FBq8qYzKayuYwHnKXD5VgNU-BHZ/view?usp=sharing"
+                    },
+                    {
+                        label: "Episode 03",
+                        embedUrl: "https://drive.google.com/file/d/1eKvTTtH0GMgeghfUS5SEusJ_qTGdjTHy/preview",
+                        viewUrl: "https://drive.google.com/file/d/1eKvTTtH0GMgeghfUS5SEusJ_qTGdjTHy/view?usp=sharing"
+                    },
+                    {
+                        label: "Episode 04",
+                        embedUrl: "https://drive.google.com/file/d/141YjXUPWiJiT2RYxkZm46xx4sBHC_zLD/preview",
+                        viewUrl: "https://drive.google.com/file/d/141YjXUPWiJiT2RYxkZm46xx4sBHC_zLD/view?usp=sharing"
+                    }
+                ]
+            },
+            {
+                id: 6,
+                title: "Short Video & Social Reels Showcase",
+                category: "events",
+                categoryLabel: "Short Video",
+                codecBadge: "2 Short Videos • Reels & TikTok",
+                duration: "2 Videos",
+                image: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=900&q=80",
+                tools: ["After Effects", "Premiere Pro"],
+                description: "Scroll-stopping short-form social edits combining custom animated titles, seamless speed ramps, and high-contrast finishing.",
+                videos: [
+                    {
+                        label: "Short Video 01",
+                        embedUrl: "https://drive.google.com/file/d/1Ie6keXoJjUtNpCgUlOnjsWH8T_fuRy5l/preview",
+                        viewUrl: "https://drive.google.com/file/d/1Ie6keXoJjUtNpCgUlOnjsWH8T_fuRy5l/view?usp=sharing"
+                    },
+                    {
+                        label: "Short Video 02",
+                        embedUrl: "https://drive.google.com/file/d/16hH9eUSrU9rCYqR6Ib-mLifCW4KE6Dav/preview",
+                        viewUrl: "https://drive.google.com/file/d/16hH9eUSrU9rCYqR6Ib-mLifCW4KE6Dav/view?usp=sharing"
+                    }
+                ]
+            }
+        ];
+
+        const portfolioGrid = document.getElementById('portfolio-grid');
+
+        function renderProjectThumbnail(project) {
+            if (project.customThumbnailType === 'zemen-gebeya') {
+                return `
+                    <div class="w-full h-full bg-[#064E08] flex flex-col items-center justify-center p-4 text-center select-none transition-transform duration-700 group-hover:scale-105">
+                        <div class="flex items-center gap-2.5 mb-1">
+                            <svg viewBox="0 0 64 64" class="w-9 h-9 shrink-0" xmlns="http://www.w3.org/2000/svg">
+                                <g stroke="#8BC34A" stroke-width="2.5">
+                                    <line x1="32" y1="32" x2="32" y2="10"/>
+                                    <line x1="32" y1="32" x2="51" y2="21"/>
+                                    <line x1="32" y1="32" x2="51" y2="43"/>
+                                    <line x1="32" y1="32" x2="32" y2="54"/>
+                                    <line x1="32" y1="32" x2="13" y2="43"/>
+                                    <line x1="32" y1="32" x2="13" y2="21"/>
+                                </g>
+                                <circle cx="32" cy="32" r="5" fill="#DCE775"/>
+                                <circle cx="32" cy="10" r="4.5" fill="#9CCC65"/>
+                                <circle cx="51" cy="21" r="4.5" fill="#DCE775"/>
+                                <circle cx="51" cy="43" r="4.5" fill="#9CCC65"/>
+                                <circle cx="32" cy="54" r="4.5" fill="#DCE775"/>
+                                <circle cx="13" cy="43" r="4.5" fill="#9CCC65"/>
+                                <circle cx="13" cy="21" r="4.5" fill="#DCE775"/>
+                            </svg>
+                            <span class="font-display font-black text-3xl sm:text-4xl text-white tracking-tight leading-none">ዘመን</span>
+                        </div>
+                        <div class="flex items-baseline gap-1.5 leading-none">
+                            <span class="font-display font-extrabold text-2xl sm:text-3xl text-white tracking-tight">Zemen</span>
+                            <span class="font-display font-black text-xl sm:text-2xl text-[#D4C56A] tracking-wide">GEBEYA</span>
+                        </div>
+                        <p class="text-[11px] sm:text-xs italic text-gray-100 mt-1">Where Ethiopia Shops Digitally</p>
+                        <p class="font-display font-black text-sm sm:text-base text-[#FF4D00] tracking-wider mt-1.5">Social media promotion</p>
+                    </div>
+                `;
+            }
+
+            return `
+                <img 
+                    src="${project.image}" 
+                    onerror="this.src='https://placehold.co/800x450/161616/FF4D00?text=${encodeURIComponent(project.title)}'"
+                    alt="${project.title}" 
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+            `;
+        }
+
+        function renderProjects(filter = 'all') {
+            const filtered = filter === 'all' ? projects : projects.filter(p => p.category === filter);
+            portfolioGrid.innerHTML = filtered.map(project => `
+                <article onclick="openProjectModal(${project.id})" class="group cursor-pointer bg-dark-800 rounded overflow-hidden border border-white/[0.06] hover:border-brand-orange/60 transition-all duration-300 flex flex-col">
+                    <div class="relative aspect-video overflow-hidden bg-dark-950">
+                        ${renderProjectThumbnail(project)}
+                        <div class="absolute inset-0 bg-black/30 group-hover:bg-black/15 transition-colors"></div>
+                        
+                        <span class="absolute top-3 left-3 px-2.5 py-1 rounded bg-black/80 backdrop-blur-md text-[10px] font-mono text-gray-200 border border-white/10">
+                            ${project.codecBadge}
+                        </span>
+
+                        <span class="absolute top-3 right-3 px-2.5 py-1 rounded bg-black/80 backdrop-blur-md text-[11px] font-mono text-white border border-white/10">
+                            ${project.duration}
+                        </span>
+
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="w-12 h-12 rounded-full bg-brand-orange text-white flex items-center justify-center shadow-lg shadow-brand-orange/40 transform scale-90 group-hover:scale-100 transition-transform">
+                                <i data-lucide="play" class="w-5 h-5 fill-current ml-0.5"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-semibold text-brand-orange uppercase tracking-wider">
+                                ${project.categoryLabel}
+                            </span>
+                            <h3 class="font-display font-bold text-lg text-white mt-1.5 mb-2 group-hover:text-brand-orange transition-colors">
+                                ${project.title}
+                            </h3>
+                            <p class="text-muted text-xs leading-relaxed mb-4">
+                                ${project.description}
+                            </p>
+                        </div>
+
+                        <div class="flex flex-wrap gap-1.5 pt-3 border-t border-white/5">
+                            ${project.tools.map(tool => `
+                                <span class="px-2.5 py-1 rounded bg-dark-950 text-[11px] text-gray-300 border border-white/5">${tool}</span>
+                            `).join('')}
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        renderProjects('all');
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('bg-brand-orange', 'text-white', 'font-semibold', 'shadow-md', 'shadow-brand-orange/20');
+                    b.classList.add('bg-dark-800', 'text-muted', 'font-medium');
+                });
+                btn.classList.remove('bg-dark-800', 'text-muted', 'font-medium');
+                btn.classList.add('bg-brand-orange', 'text-white', 'font-semibold', 'shadow-md', 'shadow-brand-orange/20');
+                renderProjects(btn.dataset.filter);
+            });
+        });
+
+        // ==================== VIDEO & SHOWREEL MODAL ====================
+        const videoModal = document.getElementById('video-modal');
+        let playbackInterval = null;
+        let isPlaying = true;
+        let progressPercent = 28;
+
+        function startSimulatedTimeline() {
+            clearInterval(playbackInterval);
+            isPlaying = true;
+            updatePlayIcon();
+            playbackInterval = setInterval(() => {
+                if (!isPlaying) return;
+                progressPercent = (progressPercent + 1) % 100;
+                document.getElementById('modal-progress-bar').style.width = `${progressPercent}%`;
+                const frames = String(Math.floor(Math.random() * 24)).padStart(2, '0');
+                const secs = String(Math.floor((progressPercent / 100) * 59)).padStart(2, '0');
+                document.getElementById('modal-timecode').textContent = `00:00:${secs}:${frames}`;
+            }, 350);
+        }
+
+        function scrubSimulatedTimeline(e) {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const ratio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+            progressPercent = Math.round(ratio * 100);
+            document.getElementById('modal-progress-bar').style.width = `${progressPercent}%`;
+            const secs = String(Math.floor(ratio * 59)).padStart(2, '0');
+            document.getElementById('modal-timecode').textContent = `00:00:${secs}:12`;
+        }
+
+        function updatePlayIcon() {
+            const icon = document.getElementById('modal-play-icon');
+            const status = document.getElementById('modal-status-text');
+            icon.setAttribute('data-lucide', isPlaying ? 'pause' : 'play');
+            status.textContent = isPlaying ? 'PLAYING MASTER PRORES 422 HQ' : 'PAUSED';
+            lucide.createIcons();
+        }
+
+        function toggleSimulatedPlayback() {
+            isPlaying = !isPlaying;
+            updatePlayIcon();
+        }
+
+        function setSimulatedPlayerMode(active) {
+            const poster = document.getElementById('modal-poster');
+            const posterGradient = document.getElementById('modal-poster-gradient');
+            const tcBadge = document.getElementById('modal-tc-badge');
+            const playToggle = document.getElementById('modal-play-toggle');
+            const simControls = document.getElementById('modal-sim-controls');
+            const drivePlayer = document.getElementById('modal-drive-player');
+            const switcher = document.getElementById('modal-video-switcher');
+
+            if (active) {
+                drivePlayer.classList.add('hidden');
+                drivePlayer.src = '';
+                switcher.classList.add('hidden');
+                switcher.classList.remove('flex');
+                poster.classList.remove('hidden');
+                posterGradient.classList.remove('hidden');
+                tcBadge.classList.remove('hidden');
+                playToggle.classList.remove('hidden');
+                simControls.classList.remove('hidden');
+            } else {
+                clearInterval(playbackInterval);
+                poster.classList.add('hidden');
+                posterGradient.classList.add('hidden');
+                tcBadge.classList.add('hidden');
+                playToggle.classList.add('hidden');
+                simControls.classList.add('hidden');
+                drivePlayer.classList.remove('hidden');
+            }
+        }
+
+        function switchModalDriveVideo(videos, index) {
+            const selected = videos[index];
+            if (!selected) return;
+            const drivePlayer = document.getElementById('modal-drive-player');
+            const externalLink = document.getElementById('modal-drive-external');
+            const tabsContainer = document.getElementById('modal-video-tabs');
+
+            drivePlayer.src = selected.embedUrl;
+            externalLink.href = selected.viewUrl;
+
+            tabsContainer.innerHTML = videos.map((vid, idx) => `
+                <button
+                    type="button"
+                    data-vid-index="${idx}"
+                    class="modal-vid-tab px-3.5 py-1.5 rounded text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                        idx === index
+                            ? 'bg-brand-orange text-white shadow-md shadow-brand-orange/25'
+                            : 'bg-dark-800 text-gray-300 hover:text-white border border-white/10'
+                    }"
+                >
+                    <i data-lucide="play-circle" class="w-3.5 h-3.5"></i>
+                    <span>${vid.label}</span>
+                </button>
+            `).join('');
+
+            tabsContainer.querySelectorAll('.modal-vid-tab').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    switchModalDriveVideo(videos, Number(btn.dataset.vidIndex));
+                });
+            });
+            lucide.createIcons();
+        }
+
+        function openShowreelModal() {
+            setSimulatedPlayerMode(true);
+            document.getElementById('modal-category').textContent = "DIRECTOR'S SHOWREEL";
+            document.getElementById('modal-title').textContent = "Aberham Melaku — Video Editing, Color & Motion Reel";
+            document.getElementById('modal-poster').src = "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1400&q=85";
+            document.getElementById('modal-duration').textContent = "01:45";
+            document.getElementById('modal-description').textContent = "A curated montage of brand commercials, event highlights, motion graphics, and DaVinci Resolve color grading by Aberham Melaku.";
+            document.getElementById('modal-tools').innerHTML = `
+                <span class="px-3 py-1 rounded bg-dark-800 border border-white/10 text-xs text-gray-200">DaVinci Resolve</span>
+                <span class="px-3 py-1 rounded bg-dark-800 border border-white/10 text-xs text-gray-200">Premiere Pro</span>
+                <span class="px-3 py-1 rounded bg-dark-800 border border-white/10 text-xs text-gray-200">After Effects</span>
+            `;
+            videoModal.classList.remove('hidden');
+            videoModal.classList.add('flex');
+            progressPercent = 18;
+            startSimulatedTimeline();
+        }
+
+        function openProjectModal(projectId) {
+            const project = projects.find(p => p.id === projectId);
+            if (!project) return;
+            document.getElementById('modal-category').textContent = project.categoryLabel.toUpperCase();
+            document.getElementById('modal-title').textContent = project.title;
+            document.getElementById('modal-description').textContent = project.description;
+            document.getElementById('modal-tools').innerHTML = project.tools.map(t =>
+                `<span class="px-3 py-1 rounded bg-dark-800 border border-white/10 text-xs text-gray-200">${t}</span>`
+            ).join('');
+
+            if (project.videos && project.videos.length > 0) {
+                setSimulatedPlayerMode(false);
+                const switcher = document.getElementById('modal-video-switcher');
+                switcher.classList.remove('hidden');
+                switcher.classList.add('flex');
+                switchModalDriveVideo(project.videos, 0);
+            } else {
+                setSimulatedPlayerMode(true);
+                document.getElementById('modal-poster').src = project.image;
+                document.getElementById('modal-duration').textContent = project.duration;
+                progressPercent = 22;
+                startSimulatedTimeline();
+            }
+
+            videoModal.classList.remove('hidden');
+            videoModal.classList.add('flex');
+        }
+
+        function closeVideoModal() {
+            videoModal.classList.add('hidden');
+            videoModal.classList.remove('flex');
+            clearInterval(playbackInterval);
+            const drivePlayer = document.getElementById('modal-drive-player');
+            if (drivePlayer) drivePlayer.src = '';
+        }
+
+        // ==================== RESUME / CV MODAL ====================
+        const resumeModal = document.getElementById('resume-modal');
+        function openResumeModal() {
+            resumeModal.classList.remove('hidden');
+            resumeModal.classList.add('flex');
+        }
+        function closeResumeModal() {
+            resumeModal.classList.add('hidden');
+            resumeModal.classList.remove('flex');
+        }
+        function downloadTextCV() {
+            const cvContent = `CURRICULUM VITAE
+Aberham Melaku
+Video Editor & Colorist | Motion Designer
+Addis Ababa, Ethiopia
+Email: abraham.abraway@gmail.com
+Phone: +251 967 435 686
+
+PROFESSIONAL EXPERIENCE
+Video Editor & Colorist — Inframe Production
+Worked on commercial and creative productions for leading Ethiopian brands, contributing to professional video editing, color grading, and visual storytelling.
+Selected projects include:
+- Ethio Telecom — Zemen Gebeya social media advertising campaign.
+- TECNO Camon 50 — Event promotions and social media advertisements.
+- Totot Cultural Restaurant — Commercial video production.
+
+Additional Creative Projects
+Experience editing YouTube programs, podcasts, event productions, and various commercial projects. Collaborated with experienced colorists, cinematographers, and motion designers in the Ethiopian creative industry.
+
+TECHNICAL SKILLS
+- Professional Video Editing
+- Color Grading & Color Design
+- Motion Graphics & Motion Design
+- Visual Storytelling
+- Commercial & Social Media Advertising
+- YouTube & Podcast Editing
+
+SOFTWARE & TOOLS
+- DaVinci Resolve — Color Grading & Post-Production
+- Adobe Premiere Pro — Professional Video Editing
+- Adobe After Effects — Motion Graphics & Visual Effects
+
+PROFESSIONAL PROFILE
+Passionate about visual storytelling, creative problem-solving, and delivering high-quality visual experiences through editing, motion, and color.
+`;
+            const blob = new Blob([cvContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Aberham_Melaku_CV.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+
+            const toast = document.getElementById('cv-download-toast');
+            toast.classList.remove('opacity-0');
+            setTimeout(() => toast.classList.add('opacity-0'), 3000);
+        }
+
+        // ==================== CONTACT FORM ====================
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const senderName = document.getElementById('name').value.trim();
+            const senderEmail = document.getElementById('email').value.trim();
+            const serviceType = document.getElementById('project-type').value;
+            const timelineVal = document.getElementById('timeline').value;
+            const projectDetails = document.getElementById('message').value.trim();
+
+            const subject = encodeURIComponent(`New Project Inquiry: ${serviceType} — ${senderName}`);
+            const body = encodeURIComponent(
+                `Hi Aberham,\n\n` +
+                `Name: ${senderName}\n` +
+                `Email: ${senderEmail}\n` +
+                `Service Needed: ${serviceType}\n` +
+                `Estimated Timeline: ${timelineVal}\n\n` +
+                `Project Details:\n${projectDetails}\n`
+            );
+
+            window.location.href = `mailto:abraham.abraway@gmail.com?subject=${subject}&body=${body}`;
+
+            const feedback = document.getElementById('form-feedback');
+            feedback.classList.remove('hidden');
+            this.reset();
+            setTimeout(() => {
+                feedback.classList.add('hidden');
+            }, 6000);
+        });
+
+        // Keyboard & backdrop close handlers
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeVideoModal();
+                closeResumeModal();
+            }
+        });
+        videoModal.addEventListener('click', (e) => {
+            if (e.target === videoModal) closeVideoModal();
+        });
+        resumeModal.addEventListener('click', (e) => {
+            if (e.target === resumeModal) closeResumeModal();
+        });
+    </script>
+</body>
+</html>
